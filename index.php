@@ -1,4 +1,12 @@
 <?php
+
+define('C_BASE_URL','http://montik.localhost/');
+
+//configurações de banco de dados
+define('C_MYSQL_URL','localhost');
+define('C_MYSQL_USER','root');
+define('C_MYSQL_PASS','Pass@123');
+
 /**
  * CodeIgniter
  *

@@ -70,14 +70,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | The $query_builder variables lets you determine whether or not to load
 | the query builder class.
 */
-$active_group = 'default';
+$active_group = 'motik';
 $query_builder = TRUE;
 
-$db['default'] = array(
+$HostLocalServer = C_MYSQL_URL;
+$UserLocalServer = C_MYSQL_USER;
+$PassLocalServer = C_MYSQL_PASS;
+
+$db['motik'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => 'Pass@123',
+	'hostname' => $HostLocalServer,
+	'username' => $UserLocalServer,
+	'password' => $PassLocalServer,
 	'database' => 'motik',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
