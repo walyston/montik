@@ -23,20 +23,42 @@ class Model_produtos  extends CI_Model {
         return $db->insert_id();
     }
 
-    public function insertEstoque($dados){
+    public function insereEstoque($dados){
         $db = $this->load->database($this->database, TRUE);
         $db->insert($this->tb_estoque, $dados);
-        if($db->affected_rows() == '1'){
-    		return true;
+        if($db->affected_rows() > '0'){
+            return true;
         }
+        return false;
+    }
 
-    	return false;
+
+    public function deletaProduto($id_produto){
+        $db = $this->load->database($this->database, TRUE);
+        $db->where("id", $id_produto);
+        $db->delete($this->tb_produtos);
+
+        if($db->affected_rows() > '0'){
+            return true;
+        }
+        return false;
+    }
+
+    public function deletaEstoque($id_produto){
+        $db = $this->load->database($this->database, TRUE);
+        $db->where("id_produto", $id_produto);
+        $db->delete($this->tb_estoque);
+
+        if($db->affected_rows() > '0'){
+            return true;
+        }
+        return false;
     }
 
     //faz um update no produto
-    public function update($id_colab,$dados){
+    public function updateProduto($id_produto,$dados){
     	$db = $this->load->database($this->database, TRUE);
-    	$db->where('id', $id_colab);
+    	$db->where('id', $id_produto);
     	$db->update($this->tb_produtos, $dados);
     	if($db->affected_rows() == '1'){
     		return true;
@@ -45,21 +67,49 @@ class Model_produtos  extends CI_Model {
     	return false;
     }
 
-    //pega a instituição do id passado
+    //faz um update no estoque
+    public function updateEstoque($dados){
+
+        $db = $this->load->database($this->database, TRUE);
+        $db->where('id_produto', $dados['id_produto']);
+        $db->insert($this->tb_estoque, $dados);
+        if($db->affected_rows() > '0'){
+            return true;
+        }
+        return false;
+
+    }
+
+    //pega o produto especifico
 	public function getProduto($id_produto){
 		$db = $this->load->database($this->database, TRUE);
-        $db->select($this->tb_produtos.'.id AS id,
-                        '.$this->tb_produtos.'.nome AS nome,
-                        '.$this->tb_produtos.'.valor_venda AS valor_venda,
-                        '.$this->tb_estoque.'.variacao AS variacao,
-                        '.$this->tb_estoque.'.quantidade AS quantidade');
 		$db->where('id', $id_produto);
-        $db->join($this->tb_estoque, $this->tb_produtos.'.id = '.$this->tb_estoque.'.id_produto', 'LEFT');
 		$rs = $db->get($this->tb_produtos)->result();
 		if(count($rs)==0){			
 			return null;
 		}
         $rs = $rs[0];
+		return $rs;
+	}
+
+    public function getTodosProdutos(){
+		$db = $this->load->database($this->database, TRUE);
+        $db->join($this->tb_estoque, $this->tb_produtos.'.id = '.$this->tb_estoque.'.id_produto', 'LEFT');
+        // $db->group_by($this->tb_produtos.'.id');
+		$rs = $db->get($this->tb_produtos)->result();
+		if(count($rs)==0){			
+			return null;
+		}
+		return $rs;
+	}
+
+    public function getEstoque($id_produto){
+		$db = $this->load->database($this->database, TRUE);
+		$db->where('id_produto', $id_produto);
+		$rs = $db->get($this->tb_estoque)->result();
+		if(count($rs)==0){			
+			return null;
+		}
 		return $rs;
 	}
 }

@@ -4,25 +4,31 @@
         $id_produto = 0;
         $nome_produto = "";
         $valor_venda = "";
-        $variacao = "";
-        $estoque = 0;
+        $variacao_estoque = array();
+        $count_variacao = 0;
 	}else{
 		$id_produto = $produto->id;
         $nome_produto = $produto->nome;
         $valor_venda = $produto->valor_venda;
-        $variacao = $produto->variacao;
-        $estoque = $produto->quantidade;
+        $count_variacao = count($variacao_estoque);
 	}
 ?>
 
 <div  class="container text-center">
     <div class="row">
-        <div class="col-4">
-            <?php 
+        <?php 
             echo validation_errors();
             echo form_open('Produtos/addProduto', array('id'=>'form_produto'));
+        ?>
+        <div class="col-6">
+            <?php 
+                echo form_hidden(
+                    array(
+                        'id_produto' => $id_produto,
+                        'count_variacao' => $count_variacao,
+                    )
+                );
 
-                echo form_hidden('id_produto',$id_produto);
 
                 echo form_label('Nome do produto:');
                 echo form_input(array(
@@ -38,38 +44,58 @@
                     'type'  => 'number',
                     'name'  => 'valor_produto',
                     'id'    => 'valor_produto',
+                    'step'  => 0.01,
                     'value' => $valor_venda,
                     'class' => 'form-control'
                 ));
-
-                echo form_label('Selecione uma variação:');
-                echo form_dropdown('variacao_produto', 
-                                            $variacao_produto, 
-                                            isset($variacao)?$variacao:'--', 
-                                            array("class"=>'form-control','id'=>'variacao_produto')
-                                        );
-                
-                echo form_label('Estoque:');
-                echo form_input(array(
-                    'type'  => 'number',
-                    'name'  => 'quantidade',
-                    'id'    => 'quantidade',
-                    'value' => $estoque,
-                    'class' => 'form-control'
-                ));
-
-                echo form_input(array(
-                    'type'  => 'submit',
-                    'name'  => 'submit',
-                    'id'    => 'salvar_produto',
-                    'value' => 'Salvar Produto',
-                    'class' => 'btn btn-success'
-                ));
-
-            echo form_close();
             ?>
         </div>
-    </div> 
+
+        <div class="col-6">
+            <?php echo form_label('Adicionar variações e estoque:'); ?>
+
+            <div id="container-variacoes">
+                <?php foreach($variacao_estoque as $key => $value):?>
+                <div class="input-group mb-3 linha-variacao">
+                    <span class="input-group-text">Variação</span>
+                    <?php 
+                        echo form_dropdown("variacao_estoque[{$key}][variacao]", 
+                            $variacao_produto, 
+                            isset($value['variacao']) ? $value['variacao'] : '', 
+                            array("class"=>'form-control', 'required' => 'required')
+                        ); 
+                    ?>
+                    <span class="input-group-text">Estoque</span>
+                    <?php echo form_input(array(
+                        'type'  => 'number',
+                        'name'  => "variacao_estoque[{$key}][quantidade]",
+                        'value' => isset($value['quantidade']) ? $value['quantidade'] : '',
+                        'class' => 'form-control',
+                        'min'   => 0,
+                        'required' => 'required'
+                    )); ?>
+                    <button type="button" class="btn btn-danger btn-remover-variacao">Remover</button>
+                </div>
+                <?php endforeach;?>
+            </div>
+
+            <button type="button" class="btn btn-secondary mt-2" id="btn-adicionar-variacao">Adicionar</button>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-6">
+            <?php echo form_input(array(
+                        'type'  => 'submit',
+                        'name'  => 'submit',
+                        'id'    => 'salvar_produto',
+                        'value' => 'Salvar Produto',
+                        'class' => 'btn btn-success'
+                    ));?>
+        </div>
+            
+    </div>
+    <?php 
+    echo form_close(); 
+    ?>
 </div>
-
-
