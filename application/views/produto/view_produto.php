@@ -29,7 +29,6 @@
                     )
                 );
 
-
                 echo form_label('Nome do produto:');
                 echo form_input(array(
                     'type'  => 'text',
@@ -55,6 +54,7 @@
             <?php echo form_label('Adicionar variações e estoque:'); ?>
 
             <div id="container-variacoes">
+                <!-- Início do loop PHP -->
                 <?php foreach($variacao_estoque as $key => $value):?>
                 <div class="input-group mb-3 linha-variacao">
                     <span class="input-group-text">Variação</span>
@@ -77,6 +77,7 @@
                     <button type="button" class="btn btn-danger btn-remover-variacao">Remover</button>
                 </div>
                 <?php endforeach;?>
+                <!-- Início do loop PHP -->
             </div>
 
             <button type="button" class="btn btn-secondary mt-2" id="btn-adicionar-variacao">Adicionar</button>

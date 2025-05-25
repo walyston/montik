@@ -95,8 +95,19 @@ class Produtos extends MY_Controller {
 
 	private function autalizaEstoque($id_produto, $estoque){
 
+		$temp = $estoque;
+		foreach($estoque as $k => $val){
+			if(count($temp)> $k){
+				foreach($estoque as $key => $value){
+					if(($k != $key) && in_array($value['variacao'],$temp[$k])){
+						$temp[$k]['quantidade'] += $value['quantidade'];
+						unset($temp[$key]);
+					}
+				}
+			}
+		}
 		$this->Model_produtos->deletaEstoque((int)$id_produto);
-		foreach($estoque as $dados){
+		foreach($temp as $dados){
 			$dados['id_produto'] = (int)$id_produto;
 			$this->Model_produtos->insereEstoque($dados);
 		}

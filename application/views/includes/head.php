@@ -16,6 +16,31 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     </head>
+      <!-- Sidebar -->
+    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Menu</button>
+    <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Menu</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+
+            <table class="table table-hover">
+                <tbody>
+                    <tr>
+                        <td class="align-middle"><a href="<?= base_url('Home') ?>">Home</a></td>
+                    </tr>
+                    <tr>
+                        <td class="align-middle"><a href="<?= base_url('Produtos/0') ?>">Novo Produto</a></td>
+                    </tr>
+                    <tr>
+                        <td class="align-middle"><a href="<?= base_url('Carrinho') ?>">Carrinho</a></td>
+                    </tr>
+                </tbody>
+            </table>       
+        </div>
+    </div>
     <body class="background m-t">
         <section id="container">
-            <div id="row-content">
+            <div id="row-content" class="content">
+                <br>
