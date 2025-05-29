@@ -8,6 +8,7 @@
         <th class="text-center">Quantidade</th>
         <th class="text-end">Valor Unitário</th>
         <th class="text-end">Subtotal</th>
+        <th class="text-end"></th>
       </tr>
     </thead>
     <tbody>
@@ -21,6 +22,7 @@
           <td class="text-center"><?= $item['quantidade'] ?></td>
           <td class="text-end">R$<?= number_format($item['preco'], 2, ',', '.') ?></td>
           <td class="text-end">R$<?= number_format($subtotal, 2, ',', '.') ?></td>
+          <td class="text-end"><a class="btn btn-outline-danger btn-sm" href="<?= base_url('Carrinho/' . $item['id_produto']) ?>">Remover</a></td>
         </tr>
       <?php endforeach; ?>
     </tbody>

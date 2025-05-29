@@ -25,18 +25,23 @@ class Pedidos extends MY_Controller {
     }
 
     public function getCarrinho(){
-        $produtos_sessao = $this->session->get_userdata()['carrinho'];
-        $produtos = $this->Model_pedidos->getProdutosCarrinho(array_keys($produtos_sessao));
+        $data['carrinho'] = array();
         $data['cupom'] = 0;
         $data['frete'] = 0;
         $data['total_geral'] = 0;
 
-        foreach ($produtos as $key => $value) {
-            $data['carrinho'][]=array(
-                'nome'          => $value->nome,
-                'preco'   => $value->valor_venda,
-                'quantidade'    => $produtos_sessao[$value->id],
-            );
+        if(!empty($this->session->get_userdata()['carrinho'])){
+            $produtos_sessao = $this->session->get_userdata()['carrinho'];
+            $produtos = $this->Model_pedidos->getProdutosCarrinho(array_keys($produtos_sessao));
+            
+            foreach ($produtos as $key => $value) {
+                $data['carrinho'][]=array(
+                    'id_produto'    => $value->id,
+                    'nome'          => $value->nome,
+                    'preco'         => $value->valor_venda,
+                    'quantidade'    => $produtos_sessao[$value->id],
+                );
+            }
         }
 
         $views[] = "Pedido/View_Carrinho";
@@ -45,6 +50,19 @@ class Pedidos extends MY_Controller {
 
     public function delCarrinho(){
         $this->session->unset_userdata('carrinho');
+    }
+
+    public function delProdutoCarrinho($id_produto){
+
+        $produtos = $this->session->get_userdata()['carrinho'];
+        if ($produtos[$id_produto] > 1){
+            
+            $produtos[$id_produto] -=1;
+        }else{
+            unset($produtos[$id_produto]);
+        }
+        $this->session->set_userdata('carrinho',$produtos);
+        redirect('Carrinho');
     }
 
 }
