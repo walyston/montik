@@ -8,12 +8,12 @@
                     <div class="card-body p-3">
                         <h6 class="card-title mb-2"><?= $produto['nome'] ?></h6>
                         <img src="https://png.pngtree.com/png-clipart/20231017/original/pngtree-example-document-illustrative-model-picture-image_13175920.png" class="card-img-top" alt="...">
-                        <h6 class="card-title mb-2">Valor R$<?= $produto['valor_venda'] ?></h6>
+                        <h6 class="card-title mb-2">Valor: <span>R$ <?= number_format($produto['valor_venda'], 2, ',', '.') ?></span></h6>
                         <table class="table table-sm table-bordered mb-2">
                         <thead class="table-light">
                             <tr>
-                            <th>Var</th>
-                            <th>Qtd</th>
+                            <th>Variação</th>
+                            <th>Estoque</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -34,7 +34,7 @@
                         </div>
                     </div>
                     <div class="d-grid gap-2">
-                        <input type="button" value="Comprar" class="btn btn-sm btn-success">
+                        <a href="<?= base_url('Pedidos/addCarrinho/' . $produto['id']) ?>" class="btn btn-sm btn-success">Adicionar ao Carrinho</a>
                     </div>
                 </div>
             </div>

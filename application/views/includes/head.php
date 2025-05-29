@@ -34,7 +34,7 @@
                         <td class="align-middle"><a href="<?= base_url('Produtos/0') ?>">Novo Produto</a></td>
                     </tr>
                     <tr>
-                        <td class="align-middle"><a href="<?= base_url('Carrinho') ?>">Carrinho</a></td>
+                        <td class="align-middle"><a href="<?= base_url('Carrinho') ?>"><?= (count((isset($this->session->get_userdata()['carrinho'])?$this->session->get_userdata()['carrinho']:array()))>0 ? "Carrinho (".count($this->session->get_userdata()['carrinho']).")":"Carrinho");?></a></td>
                     </tr>
                 </tbody>
             </table>       
